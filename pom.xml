@@ -81,7 +81,16 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<plugins>
+	    <plugins>
+	        <plugin> <!--  dynamic web project -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
 			<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-war-plugin</artifactId>
@@ -121,37 +130,22 @@
 						<appLocation>${project.artifactId}.war</appLocation>
 					</bootstrapProperties>
 				</configuration>
-			</plugin>
-			<!-- Plugin to run functional tests -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.18.1</version>
 				<executions>
 					<execution>
-						<phase>integration-test</phase>
-						<id>integration-test</id>
+						<id>install-liberty</id>
+						<phase>prepare-package</phase>
 						<goals>
-							<goal>integration-test</goal>
+							<goal>install-server</goal>
 						</goals>
-						<configuration>
-							<systemPropertyVariables>
-								<liberty.test.port>${testServerHttpPort}</liberty.test.port>
-								<war.context>${warContext}</war.context>
-							</systemPropertyVariables>
-						</configuration>
 					</execution>
 					<execution>
-						<id>verify-results</id>
+						<id>package-app</id>
+						<phase>package</phase>
 						<goals>
-							<goal>verify</goal>
+							<goal>package-server</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<summaryFile>${project.build.directory}/test-reports/it/failsafe-summary.xml</summaryFile>
-					<reportsDirectory>${project.build.directory}/test-reports/it</reportsDirectory>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
