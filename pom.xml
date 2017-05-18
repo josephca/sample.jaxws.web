@@ -140,7 +140,7 @@
 				<configuration>
 					<assemblyArtifact>
 						<groupId>com.ibm.websphere.appserver.runtime</groupId>
-						<artifactId>wlp-webProfile7</artifactId>
+						<artifactId>wlp-javaee7</artifactId>
 						<version>17.0.0.1</version>
 						<type>zip</type>
 					</assemblyArtifact>
@@ -156,13 +156,6 @@
 					</bootstrapProperties>
 				</configuration>
 				<executions>
-					<execution>
-						<id>install-liberty</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>install-server</goal>
-						</goals>
-					</execution>
 					<execution>
 						<id>package-app</id>
 						<phase>package</phase>
