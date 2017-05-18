@@ -91,6 +91,31 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-app</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/apps</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>${project.build.finalName}.war</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
 			<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-war-plugin</artifactId>
@@ -115,7 +140,7 @@
 				<configuration>
 					<assemblyArtifact>
 						<groupId>com.ibm.websphere.appserver.runtime</groupId>
-						<artifactId>wlp-javaee7</artifactId>
+						<artifactId>wlp-webProfile7</artifactId>
 						<version>17.0.0.1</version>
 						<type>zip</type>
 					</assemblyArtifact>
@@ -127,7 +152,7 @@
 					    <appContext>${warContext}</appContext>
 						<default.http.port>${testServerHttpPort}</default.http.port>
 						<default.https.port>${testServerHttpsPort}</default.https.port>
-						<appLocation>${project.artifactId}.war</appLocation>
+						<appLocation>${project.build.finalName}.war</appLocation>
 					</bootstrapProperties>
 				</configuration>
 				<executions>
