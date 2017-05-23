@@ -40,7 +40,7 @@
 		<testServerHttpsPort>9443</testServerHttpsPort>
 		<warContext>jaxws</warContext>
 		<packaging.type>usr</packaging.type>
-</properties>
+    </properties>
 
 
 	<profiles>
@@ -91,31 +91,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-app</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/apps</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <includes>
-                                        <include>${project.build.finalName}.war</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>            
 			<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-war-plugin</artifactId>
@@ -160,9 +135,21 @@
 						<id>package-app</id>
 						<phase>package</phase>
 						<goals>
-							<goal>package-server</goal>
+						    <goal>package-server</goal>
 						</goals>
 					</execution>
+					<execution>
+                        <id>install-apps</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-apps</goal>
+                        </goals>
+                        <configuration>
+                            <looseApplication>false</looseApplication>
+                            <stripVersion>true</stripVersion>
+                            <installAppPackages>project</installAppPackages>
+                        </configuration>
+                    </execution>
 				</executions>
 			</plugin>
 		</plugins>
